@@ -34,7 +34,7 @@ Lambda needs permissions to:
 }
 
 
-
+# This policy will allow Secrets Manager to invoke the specified Lambda function.
 {
     "Version": "2012-10-17",
     "Statement": [
