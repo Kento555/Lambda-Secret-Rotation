@@ -4,13 +4,13 @@
         {
             "Effect": "Allow",
             "Action": "lambda:InvokeFunction",
-            "Resource": "arn:aws:lambda:us-east-1:123456789012:function:YourRotationLambda",
+            "Resource": "arn:aws:lambda:us-east-1:123456789012:function:YourRotationLambda",  # Lambda arn
             "Principal": {
                 "Service": "secretsmanager.amazonaws.com"
             },
             "Condition": {
                 "ArnLike": {
-                    "AWS:SourceArn": "arn:aws:secretsmanager:us-east-1:123456789012:secret:dev/wsrdsdb/secret-*"
+                    "AWS:SourceArn": "arn:aws:secretsmanager:us-east-1:123456789012:secret:dev/wsrdsdb/secret-*"  # Secret arn
                 }
             }
         }
