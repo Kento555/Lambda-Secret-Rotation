@@ -1,0 +1,55 @@
+
+Lambda needs permissions to:
+✅ Retrieve secrets from Secrets Manager
+✅ Retrieve parameters from SSM Parameter Store
+✅ Trigger Secrets Rotation
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:RotateSecret"
+            ],
+            "Resource": "arn:aws:secretsmanager:us-east-1:123456789012:secret:my-secret-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:us-east-1:123456789012:parameter/my-parameter"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "lambda:InvokeFunction",
+            "Resource": "arn:aws:lambda:us-east-1:123456789012:function:YourRotationLambda",  # Lambda arn
+            "Principal": {
+                "Service": "secretsmanager.amazonaws.com"
+            },
+            "Condition": {
+                "ArnLike": {
+                    "AWS:SourceArn": "arn:aws:secretsmanager:us-east-1:123456789012:secret:dev/wsrdsdb/secret-*"  # Secret arn
+                }
+            }
+        }
+    ]
+}
